@@ -28,35 +28,39 @@ export class UserLoginFormComponent implements OnInit {
     private router: Router,
   ) { }
 
-  ngOnInit(): void {
-  }
-/**
- * This method will send the form inputs to the backend
- * @param void
- * @returns user object
- * @memberof UserLoginFormComponent
- * @see FetchApiDataService.userLogin()
- * @example loginUser()
- */
+  ngOnInit(): void { }
+  /**
+   * This method will send the form inputs to the backend
+   * @param void
+   * @returns user object
+   * @memberof UserLoginFormComponent
+   * @see FetchApiDataService.userLogin()
+   * @example loginUser()
+   */
   // This is the function responsible for sending the form inputs to the backend
-  loginUser(): void {
-    this.fetchApiData.userLogin(this.loginData).subscribe({
-      next: (data) => {
-        localStorage.setItem('user', JSON.stringify(data.user));
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('Username', data.user.Username);
 
-        this.dialogRef.close();
-        this.snackBar.open('You have logged in', 'OK', {
-          duration: 2000
-        });
-        this.router.navigate(['movies']);
-      },
-      error: () => {
-        this.snackBar.open('Ups! something went wrong. Please try again', 'OK', {
-          duration: 2000
-        });
-      }
-    });
-  }
+loginUser(): void {
+  this.fetchApiData.userLogin(this.loginData).subscribe({
+    next: (result) => {
+      console.log('Login Response:', result);
+      localStorage.setItem('user', JSON.stringify(result.user));
+      localStorage.setItem('token', result.token);
+
+      this.dialogRef.close(); // This will close the modal on success!
+      this.snackBar.open('Logged in', 'OK', {
+        duration: 2000,
+      });
+
+      // Navigate to the 'movies' route after successful login
+      this.router.navigate(['movies']);
+    },
+    error: (error) => {
+      console.error('Login Error:', error);
+      this.snackBar.open('Login failed. Please check your credentials.', 'OK', {
+        duration: 2000,
+      });
+    }
+  });
+}
+
 }

@@ -1,31 +1,46 @@
-
-<div style="display: flex;">
-	<mat-card *ngFor="let movie of movies;" style="flex: 1 1 auto;">
-			<mat-card-header>
-			<mat-card-title>{{movie.Title}}</mat-card-title>
-					<mat-card-subtitle>Directed by: {{movie.Director.Name}}</mat-card-subtitle>
-			</mat-card-header>
-			<img src={{movie.ImagePath}} alt= {{movie.Title}} />
-			<mat-card-actions>
-					<button
-							mat-button
-							color="primary"
-					>
-							Genre
-					</button>
-					<button
-							mat-button
-							color="primary"
-					>
-							Director
-					</button>
-					<button
-							mat-button
-							color="primary"
-					>
-							Synopsis
-					</button>
-					<mat-icon>favorite_border</mat-icon>
-			</mat-card-actions>
-	</mat-card>
+<div class="movie-grid">
+  <div *ngFor="let movie of movies" class="movie-card">
+    <mat-card role="article">
+      <mat-card-header>
+          <mat-card-title class="movieTitle">{{ movie.Title }}</mat-card-title>
+      </mat-card-header>
+      <div class="movie-image-container">
+          <img src={{movie.ImagePath}} alt= {{movie.title}} class="movieImage"/>
+      </div>
+      <mat-card-actions class="actions">
+          <button
+              mat-button
+              (click)="openGenreInfo(movie.Genre)"
+              aria-label="View Genres"
+              style="color: #fff;"
+          >
+              Genre
+          </button>
+          <button
+              mat-button
+              (click)="openDirectorInfo(movie.Director)"
+              aria-label="View Director Information"
+              style="color: #fff;"
+          >
+              Director
+          </button>
+          <button
+              mat-button
+              (click)="openMovieInfo(movie.Title, movie.Description)"
+              aria-label="View Synopsis"
+              style="color: #fff;"
+          >
+              Synopsis
+          </button>
+          <button
+           mat-icon-button
+          [ngClass]="{ 'favorite': isMovieFavorite(movie) }"
+           (click)="toggleFavorite(movie)"
+           aria-label="Add to Favorites"
+           >
+           <mat-icon [style.color]="isMovieFavorite(movie) ? 'red' : '#fff'">favorite</mat-icon>
+          </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>
