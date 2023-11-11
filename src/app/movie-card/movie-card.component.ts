@@ -26,7 +26,7 @@ export class MovieCardComponent {
     public fetchApiData: FetchApiDataService,
     public snackbar: MatSnackBar,
     public dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getMovies();
@@ -89,6 +89,15 @@ export class MovieCardComponent {
    * @param movie - The movie to be added/removed from favorites.
    */
   toggleFavorite(movie: any): void {
+    // Get user from localStorage
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+    // Check if user and favoriteMovies are defined
+    if (!user || !user.favoriteMovies) {
+      console.error('User or favoriteMovies is undefined.');
+      return;
+    }
+
     // Toggle the favorite status of the movie
     if (this.isMovieFavorite(movie)) {
       // Remove the movie from favorites locally
@@ -128,11 +137,11 @@ export class MovieCardComponent {
     movie.isFavorite = !this.isMovieFavorite(movie);
   }
 
-    /**
-   * Checks if a movie is in the user's favorites.
-   * @param movie - The movie to check.
-   * @returns A boolean indicating if the movie is in favorites.
-   */
+  /**
+ * Checks if a movie is in the user's favorites.
+ * @param movie - The movie to check.
+ * @returns A boolean indicating if the movie is in favorites.
+ */
   isMovieFavorite(movie: any): boolean {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     return user.favoriteMovies && user.favoriteMovies.includes(movie._id);

@@ -18,7 +18,7 @@ import { formatDate } from '@angular/common';
 export class UserProfileComponent implements OnInit {
 
   user: any = {};
-  favoriteMovies: any[] = [];
+  FavoriteMovies: any[] = [];
 
   /**
    * Input data for the user profile.
@@ -50,20 +50,21 @@ export class UserProfileComponent implements OnInit {
    * Fetch the user's data and their favorite movies.
    */
   getUser(): void {
+    this.user = {};
     this.fetchApiData.getOneUser().subscribe((response: any) => {
       this.user = response;
       this.userData.username = this.user.Username;
       this.userData.email = this.user.Email;
       if (this.user.Birthday) {
-        console.log('User Birthday:', this.user.birthday);
-        this.userData.birthday = formatDate(this.user.birthday, 'yyyy-MM-dd', 'en-US', 'UTC+0');
+        console.log('User Birthday:', this.user.Birthday);
+        this.userData.birthday = formatDate(this.user.Birthday, 'yyyy-MM-dd', 'en-US', 'UTC+0');
       }
   
-      this.fetchApiData.getAllMovies().subscribe((response: any) => {
-        if (this.user.favoriteMovies && Array.isArray(this.user.favoriteMovies)) {
-          this.favoriteMovies = response.filter((m: { _id: any }) => this.user.favoriteMovies.indexOf(m._id) >= 0);
+      this.fetchApiData.getAllMovies().subscribe((moviesResponse: any) => {
+        if (this.user.FavoriteMovies && Array.isArray(this.user.FavoriteMovies)) {
+          this.FavoriteMovies = response.filter((m: { _id: any }) => this.user.FavoriteMovies.indexOf(m._id) >= 0);
         } else {
-          this.favoriteMovies = [];
+          this.FavoriteMovies = [];
         }
       });
     }, (error) => {
