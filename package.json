@@ -6,9 +6,14 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "deploy": {"builder": "angular-cli-ghpages:deploy"}
+    "test": "ng test"   
   },
+  "deploy": {
+    "builder": "angular-cli-ghpages:deploy",
+    "options": {
+      "baseHref": "https://pimentacaroline.github.io/myFlix-Angular/"
+    }
+  },  
   "private": true,
   "dependencies": {
     "@angular/animations": "^16.2.0",
