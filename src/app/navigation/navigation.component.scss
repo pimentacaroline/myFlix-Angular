@@ -3,10 +3,11 @@
   border-bottom: 1px solid white;
   display: flex;
   justify-content: flex-start; 
-  padding: 1rem;
+  padding: 1 rem;
   align-items: center;
 
-  a, button {
+
+  button {
     color: white;
     margin-left: 1rem;
     padding: 0.5rem 1rem;
@@ -19,4 +20,13 @@
       color: white;
     }
   }
+
+  .logo {
+    width: 160px; 
+  }
+  
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  
 }

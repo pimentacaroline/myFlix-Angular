@@ -14,35 +14,24 @@ import { Router } from '@angular/router';
 
 export class NavigationComponent {
 
-  /**
-   * Constructor for the NavigationComponent.
-   * 
-   * @param router Provides the capabilities to navigate to different parts of the application.
-   */
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
-  /**
-   * Lifecycle hook that is called after data-bound properties are initialized.
-   */
-  ngOnInit(): void {}
+  // Implement this method in your authentication service
+  isLoggedIn(): boolean {
+    // Replace the following line with your actual authentication check
+    return localStorage.getItem('token') !== null;
+  }
 
-  /**
-   * Navigate to the movies view.
-   */
+  ngOnInit(): void { }
+
   toMovies(): void {
     this.router.navigate(['movies']);
   }
 
-  /**
-   * Navigate to the user profile view.
-   */
   toProfile(): void {
     this.router.navigate(['profile']);
   }
 
-  /**
-   * Logout the user and navigate to the welcome view.
-   */
   toLogout(): void {
     this.router.navigate(['welcome']);
     localStorage.clear();

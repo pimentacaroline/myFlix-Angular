@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-
+import { of } from 'rxjs';
 
 //Declaring the api url that will provide data for the client app
 const apiUrl = 'https://cp-movies-api-41b2d280c95b.herokuapp.com/';
@@ -89,7 +89,7 @@ export class FetchApiDataService {
   //Get user
   getOneUser(): Observable<any> {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-    return user;
+    return of (user);
   }
 
   //Get favourite movies

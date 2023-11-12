@@ -1,21 +1,21 @@
 .profile-container {
-  max-width: 1000px; 
-  margin: 0 auto;    
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 20px;
 }
 
 .sections {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  gap: 80px;
+  margin-top: 20px;
+  margin-bottom: 40px;
 }
 
-.info-container, .update-form {
+.info-container,
+.update-form {
   background-color: rgba(0, 0, 0, 0.9);
   padding: 20px;
   border-radius: 10px;
   color: #fff;
+
 }
 
 .info-container {
@@ -30,8 +30,13 @@
   justify-content: space-between;
 }
 
+.title-form {
+  width: 100%;
+
+}
+
 .update-form mat-form-field {
-  width: 48%; /* for 2x2 layout */
+  width: 100%;
 }
 
 h1 {
@@ -60,15 +65,14 @@ span {
 }
 
 .favorites {
-  width: 96%;
   background-color: rgba(0, 0, 0, 0.9);
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 8px;
   margin-top: 20px;
   color: #fff;
 }
 
-.buttons {
+.form-buttons {
   display: flex;
   justify-content: center;
   gap: 10px;
