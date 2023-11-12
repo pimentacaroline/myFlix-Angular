@@ -93,7 +93,7 @@ export class MovieCardComponent {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
     // Check if user and favoriteMovies are defined
-    if (!user || !user.favoriteMovies) {
+    if (!user || !user.FavoriteMovies) {
       console.error('User or favoriteMovies is undefined.');
       return;
     }
@@ -102,7 +102,7 @@ export class MovieCardComponent {
     if (this.isMovieFavorite(movie)) {
       // Remove the movie from favorites locally
       const user = JSON.parse(localStorage.getItem('user') || '{}');
-      user.favoriteMovies = user.favoriteMovies.filter(
+      user.FavoriteMovies = user.FavoriteMovies.filter(
         (id: string) => id !== movie._id
       );
       localStorage.setItem('user', JSON.stringify(user));
@@ -119,7 +119,7 @@ export class MovieCardComponent {
     } else {
       // Add the movie to favorites locally
       const user = JSON.parse(localStorage.getItem('user') || '{}');
-      user.favoriteMovies.push(movie._id);
+      user.FavoriteMovies.push(movie._id);
       localStorage.setItem('user', JSON.stringify(user));
 
       // Add the movie to favorites on the backend server
@@ -144,6 +144,6 @@ export class MovieCardComponent {
  */
   isMovieFavorite(movie: any): boolean {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-    return user.favoriteMovies && user.favoriteMovies.includes(movie._id);
+    return user.FavoriteMovies && user.FavoriteMovies.includes(movie._id);
   }
 }

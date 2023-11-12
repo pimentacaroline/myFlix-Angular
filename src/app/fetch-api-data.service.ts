@@ -87,21 +87,9 @@ export class FetchApiDataService {
   }
 
   //Get user
-  // getOneUser(): Observable<any> {
-  //   const user = JSON.parse(localStorage.getItem('user') || '{}');
-  //   return user;
-  // }
-
   getOneUser(): Observable<any> {
-    const username = localStorage.getItem('username');
-    const token = localStorage.getItem('token');
-    return this.http.get(apiUrl + 'users/' + username, {
-      headers: new HttpHeaders(
-        {
-          Authorization: 'Bearer ' + token
-        }
-      )
-    }).pipe(map(this.extractResponseData), catchError(this.handleError));
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return user;
   }
 
   //Get favourite movies
