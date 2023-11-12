@@ -9,34 +9,18 @@
   margin-bottom: 40px;
 }
 
-.info-container,
 .update-form {
   background-color: rgba(0, 0, 0, 0.9);
   padding: 20px;
   border-radius: 10px;
   color: #fff;
-
-}
-
-.info-container {
-  flex: 0.4;
-  text-align: left;
-}
-
-.update-form {
-  flex: 0.6;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.title-form {
-  width: 100%;
-
 }
 
 .update-form mat-form-field {
-  width: 100%;
+  flex: 1 1 calc(50%);
+  padding: 12px;
 }
 
 h1 {
@@ -52,10 +36,6 @@ h2 {
 p {
   font-weight: 400;
   text-align: left;
-}
-
-span {
-  font-weight: 200;
 }
 
 .profileButtons {
@@ -76,9 +56,4 @@ span {
   display: flex;
   justify-content: center;
   gap: 10px;
-}
-
-span {
-  color: #fff;
-  font-weight: 200;
 }
