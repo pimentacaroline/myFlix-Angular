@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { MovieInfoComponent } from '../movie-info/movie-info.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,6 +15,9 @@ import { DirectorInfoComponent } from '../director-info/director-info.component'
   styleUrls: ['./movie-card.component.scss'],
 })
 export class MovieCardComponent {
+  @Input() isUserProfile: boolean = false;
+  @Input() userFavourites: [] = [];
+
   movies: any[] = [];
 
   /**
@@ -36,9 +39,23 @@ export class MovieCardComponent {
    * Fetches all movies from the API and updates the movies property.
    */
   getMovies(): void {
+    let uniqueUserFavourites = [...new Map(this.userFavourites.map((item) => [item["_id"], item])).values()];
+    
     this.fetchApiData.getAllMovies().subscribe((resp: any) => {
-      this.movies = resp;
-      console.log(this.movies);
+      if (this.isUserProfile) {
+        let favorites: any = [];
+
+        uniqueUserFavourites.forEach((fm: any) => {
+          let favorite = resp.find((m: any) => m._id == fm);
+          favorites.push(favorite)
+        });
+
+        this.movies = favorites;
+      }
+      else {
+        this.movies = resp;
+      }
+
       return this.movies;
     });
   }

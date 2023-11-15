@@ -40,11 +40,6 @@
     <div *ngIf="FavoriteMovies.length === 0">
       <p>Your List Is Empty</p>
     </div>
-    <div *ngFor="let movie of FavoriteMovies" class="image-container">
-      <app-movie-card>
-
-      </app-movie-card>
-    </div>
-
+    <app-movie-card [isUserProfile]="true" [userFavourites]="user.FavoriteMovies"></app-movie-card>
   </div>
 </div>

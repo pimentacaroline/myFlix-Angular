@@ -53,6 +53,8 @@ export class UserProfileComponent implements OnInit {
     this.user = {};
     this.fetchApiData.getOneUser().subscribe((response: any) => {
       this.user = response;
+      console.log(this.user);
+      
       this.userData.username = this.user.Username;
       this.userData.email = this.user.Email;
       if (this.user.Birthday) {
@@ -61,11 +63,14 @@ export class UserProfileComponent implements OnInit {
       }
   
       this.fetchApiData.getAllMovies().subscribe((moviesResponse: any) => {
-        if (this.user.FavoriteMovies && Array.isArray(this.user.FavoriteMovies)) {
-          this.FavoriteMovies = moviesResponse.filter((m: { _id: any }) => this.user.FavoriteMovies.indexOf(m._id) >= 0);
-        } else {
-          this.FavoriteMovies = [];
-        }
+        let favorites: any = [];
+
+        this.user.FavoriteMovies.forEach((fm: any) => {
+          let favorite = moviesResponse.find((m: any) => m._id == fm);
+          favorites.push(favorite)
+        });
+
+        this.FavoriteMovies = favorites;
       });
     }, (error) => {
       console.error('Error fetching user data', error);
@@ -76,13 +81,20 @@ export class UserProfileComponent implements OnInit {
    * Edit the user's profile data.
    */
   editUser(): void {
-    this.fetchApiData.editUser(this.userData).subscribe((data) => {
+    let payload = {
+      Birthday: this.userData.birthday,
+      Email: this.userData.email,
+      Password: this.userData.password,
+      Username: this.userData.username,
+    };
+
+    this.fetchApiData.editUser(payload).subscribe((data) => {
       localStorage.setItem('user', JSON.stringify(data));
       localStorage.setItem('username', data.username);
       this.snackBar.open('User has been updated', 'OK', {
         duration: 2000
       })
-      window.location.reload();
+      // window.location.reload();
     }, (result) => {
       this.snackBar.open(result, 'OK', {
         duration: 2000
