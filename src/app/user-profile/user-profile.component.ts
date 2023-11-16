@@ -80,6 +80,12 @@ export class UserProfileComponent implements OnInit {
    */
   deleteUser(): void {
     if (confirm('are you sure?')) {
+
+      this.fetchApiData.deleteUser().subscribe((result) => {
+        if (result === 'delete')
+        localStorage.clear();
+      });
+
       this.router.navigate(['welcome']).then(() => {
         this.snackBar.open(
           'You have successfully deleted your account',
@@ -89,9 +95,7 @@ export class UserProfileComponent implements OnInit {
           }
         );
       });
-      this.fetchApiData.deleteUser().subscribe((result) => {
-        localStorage.clear();
-      });
+
     }
   }
 }
