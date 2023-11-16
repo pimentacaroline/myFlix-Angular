@@ -14,17 +14,13 @@ import { DirectorInfoComponent } from '../director-info/director-info.component'
   templateUrl: './movie-card.component.html',
   styleUrls: ['./movie-card.component.scss'],
 })
+
 export class MovieCardComponent {
   @Input() isUserProfile: boolean = false;
   @Input() userFavourites: [] = [];
 
   movies: any[] = [];
 
-  /**
-   * @param fetchApiData - Service to fetch movie data.
-   * @param snackbar - Service to show snack bar notifications.
-   * @param dialog - Service to open dialogs.
-   */
   constructor(
     public fetchApiData: FetchApiDataService,
     public snackbar: MatSnackBar,
@@ -39,13 +35,12 @@ export class MovieCardComponent {
    * Fetches all movies from the API and updates the movies property.
    */
   getMovies(): void {
-    let uniqueUserFavourites = [...new Map(this.userFavourites.map((item) => [item["_id"], item])).values()];
-    
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     this.fetchApiData.getAllMovies().subscribe((resp: any) => {
       if (this.isUserProfile) {
         let favorites: any = [];
 
-        uniqueUserFavourites.forEach((fm: any) => {
+        user.FavoriteMovies.forEach((fm: any) => {
           let favorite = resp.find((m: any) => m._id == fm);
           favorites.push(favorite)
         });
@@ -117,14 +112,6 @@ export class MovieCardComponent {
 
     // Toggle the favorite status of the movie
     if (this.isMovieFavorite(movie)) {
-      // Remove the movie from favorites locally
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      user.FavoriteMovies = user.FavoriteMovies.filter(
-        (id: string) => id !== movie._id
-      );
-      localStorage.setItem('user', JSON.stringify(user));
-
-      // Remove the movie from favorites on the backend server
       this.fetchApiData.deleteFavoriteMovie(movie._id).subscribe(
         () => {
           console.log('Movie removed from favorites successfully.');
@@ -134,12 +121,6 @@ export class MovieCardComponent {
         }
       );
     } else {
-      // Add the movie to favorites locally
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      user.FavoriteMovies.push(movie._id);
-      localStorage.setItem('user', JSON.stringify(user));
-
-      // Add the movie to favorites on the backend server
       this.fetchApiData.addFavoriteMovie(movie._id).subscribe(
         () => {
           console.log('Movie added to favorites successfully.');

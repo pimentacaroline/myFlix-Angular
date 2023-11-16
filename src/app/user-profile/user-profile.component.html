@@ -37,7 +37,7 @@
 
   <div class="favorites">
     <h2>Favorite Movies</h2>
-    <div *ngIf="FavoriteMovies.length === 0">
+    <div *ngIf="user.FavoriteMovies.length === 0">
       <p>Your List Is Empty</p>
     </div>
     <app-movie-card [isUserProfile]="true" [userFavourites]="user.FavoriteMovies"></app-movie-card>

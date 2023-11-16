@@ -7,7 +7,6 @@ import { formatDate } from '@angular/common';
 /**
  * Component that provides user profile functionalities.
  * 
- * @component
  */
 @Component({
   selector: 'app-user-profile',
@@ -25,23 +24,13 @@ export class UserProfileComponent implements OnInit {
    */
   @Input() userData = { username: '', password: '', email: '', birthday: '' };
 
-  
-  /**
-   * Constructor for the UserProfileComponent.
-   * 
-   * @param fetchApiData Service to handle the API calls.
-   * @param snackBar For showing notifications to the user.
-   * @param router For navigating to different routes.
-   */
   constructor(
     public fetchApiData: FetchApiDataService,
     public snackBar: MatSnackBar,
     private router: Router,
   ) { }
 
-  /**
-   * Lifecycle hook that is called after data-bound properties are initialized.
-   */
+
   ngOnInit(): void {
     this.getUser();
   }
@@ -52,28 +41,12 @@ export class UserProfileComponent implements OnInit {
   getUser(): void {
     this.user = {};
     this.fetchApiData.getOneUser().subscribe((response: any) => {
-      this.user = response;
-      console.log(this.user);
-      
+      this.user = response;      
       this.userData.username = this.user.Username;
       this.userData.email = this.user.Email;
       if (this.user.Birthday) {
-        console.log('User Birthday:', this.user.Birthday);
         this.userData.birthday = formatDate(this.user.Birthday, 'yyyy-MM-dd', 'en-US', 'UTC+0');
       }
-  
-      this.fetchApiData.getAllMovies().subscribe((moviesResponse: any) => {
-        let favorites: any = [];
-
-        this.user.FavoriteMovies.forEach((fm: any) => {
-          let favorite = moviesResponse.find((m: any) => m._id == fm);
-          favorites.push(favorite)
-        });
-
-        this.FavoriteMovies = favorites;
-      });
-    }, (error) => {
-      console.error('Error fetching user data', error);
     });
   }
   
