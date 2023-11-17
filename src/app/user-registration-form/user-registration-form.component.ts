@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-//Use this import to close the dialog on success
 import { MatDialogRef } from '@angular/material/dialog';
-//This import brings in the API calls created in Task 6.2
 import { FetchApiDataService } from '../fetch-api-data.service';
-//Import is used to display notifications back to the user
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+/**
+ * The UserRegistrationFormComponent is responsible for rendering and handling user registration.
+ * It provides a form for users to enter their registration details and submit the registration request.
+ */
 @Component({
   selector: 'app-user-registration-form',
   templateUrl: './user-registration-form.component.html',
@@ -24,7 +25,10 @@ export class UserRegistrationFormComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  //This function is responsible for sending the form inputs to the backend
+  /**
+   * Initiates the user registration process by calling the userRegistration method from FetchApiDataService.
+   * Handles the registration result, closing the modal on success and displaying appropriate messages.
+   */
   registerUser(): void {
     this.fetchApiData.userRegistration(this.userData).subscribe({
       next: (result) => {

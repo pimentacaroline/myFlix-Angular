@@ -1,22 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-
-
-// You'll use this import to close the dialog on success
 import { MatDialogRef } from '@angular/material/dialog';
-
-// This import brings in the API calls we created in 6.2
 import { FetchApiDataService } from '../fetch-api-data.service';
-
-// This import is used to display notifications back to the user
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
+/**
+ * The UserLoginFormComponent is responsible for rendering and handling user login.
+ * It provides a form for users to enter their login credentials and submit the login request.
+ */
 @Component({
   selector: 'app-user-login-form',
   templateUrl: './user-login-form.component.html',
   styleUrls: ['./user-login-form.component.scss']
 })
+
 export class UserLoginFormComponent implements OnInit {
 
   @Input() loginData = { Username: '', Password: '' };
@@ -29,38 +26,39 @@ export class UserLoginFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void { }
+
   /**
-   * This method will send the form inputs to the backend
-   * @param void
-   * @returns user object
-   * @memberof UserLoginFormComponent
-   * @see FetchApiDataService.userLogin()
-   * @example loginUser()
+   * Initiates the user login process by calling the userLogin method from FetchApiDataService.
+   * Handles the login result, storing user data and token in localStorage on success,
+   * closing the modal, showing appropriate messages, and navigating to the 'movies' route.
    */
-  // This is the function responsible for sending the form inputs to the backend
+  loginUser(): void {
+    this.fetchApiData.userLogin(this.loginData).subscribe({
+      next: (result) => {
+        localStorage.setItem('user', JSON.stringify(result.user));
+        localStorage.setItem('token', result.token);
 
-loginUser(): void {
-  this.fetchApiData.userLogin(this.loginData).subscribe({
-    next: (result) => {
-      console.log('Login Response:', result);
-      localStorage.setItem('user', JSON.stringify(result.user));
-      localStorage.setItem('token', result.token);
+        // Close the modal on successful login
+        this.dialogRef.close(); 
 
-      this.dialogRef.close(); // This will close the modal on success!
-      this.snackBar.open('Logged in', 'OK', {
-        duration: 2000,
-      });
+        // Display a success message using MatSnackBar
+        this.snackBar.open('Logged in', 'OK', {
+          duration: 2000,
+        });
 
-      // Navigate to the 'movies' route after successful login
-      this.router.navigate(['movies']);
-    },
-    error: (error) => {
-      console.error('Login Error:', error);
-      this.snackBar.open('Login failed. Please check your credentials.', 'OK', {
-        duration: 2000,
-      });
-    }
-  });
-}
+        // Navigate to the 'movies' route after successful login
+        this.router.navigate(['movies']);
+      },
+      error: (error) => {
+        // Log the login error for debugging purposes
+        console.error('Login Error:', error);
+
+        // Display an error message using MatSnackBar on login failure
+        this.snackBar.open('Login failed. Please check your credentials.', 'OK', {
+          duration: 2000,
+        });
+      }
+    });
+  }
 
 }

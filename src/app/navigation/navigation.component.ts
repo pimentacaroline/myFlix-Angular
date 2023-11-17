@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 /**
- * Component that provides navigation functionalities within the app.
- * 
- * @component
+ * The NavigationComponent is responsible for rendering the navigation bar of the application.
+ * It provides links and navigation options for users to navigate through different sections of the application.
  */
 @Component({
   selector: 'app-navigation',
@@ -12,17 +11,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./navigation.component.scss'],
 })
 
+
 export class NavigationComponent {
 
   constructor(private router: Router) { }
 
-  // Implement this method in your authentication service
+  ngOnInit(): void { }
+  
+  /**
+   * Checks if a user is currently logged in by verifying the presence of an authentication token.
+   * @returns {boolean} - True if the user is logged in, false otherwise.
+   */
   isLoggedIn(): boolean {
-    // Replace the following line with your actual authentication check
     return localStorage.getItem('token') !== null;
   }
-
-  ngOnInit(): void { }
 
   toMovies(): void {
     this.router.navigate(['movies']);

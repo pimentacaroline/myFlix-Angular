@@ -2,22 +2,17 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 /**
- * Component that displays information about a specific movie.
- * 
- * @component
+ * The MovieInfoComponent is responsible for rendering detailed information about a movie.
+ * It displays information such as the movie title, description, and other relevant details.
  */
 @Component({
   selector: 'app-movie-info',
   templateUrl: './movie-info.component.html',
   styleUrls: ['./movie-info.component.scss'],
 })
+
 export class MovieInfoComponent implements OnInit {
 
-  /**
-   * Constructor for the MovieInfoComponent.
-   * 
-   * @param data Contains the title and description of the movie to be displayed.
-   */
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -26,8 +21,5 @@ export class MovieInfoComponent implements OnInit {
     }
   ) { }
 
-  /**
-   * Lifecycle hook that is called after data-bound properties are initialized.
-   */
   ngOnInit(): void { }
 }

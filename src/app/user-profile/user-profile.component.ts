@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 
 /**
- * Component that provides user profile functionalities.
- * 
+ * The UserProfileComponent is responsible for displaying and managing user profile information.
+ * It provides functionality such as viewing and editing user details, managing favorite movies, etc.
  */
 @Component({
   selector: 'app-user-profile',
@@ -19,9 +19,6 @@ export class UserProfileComponent implements OnInit {
   user: any = {};
   FavoriteMovies: any[] = [];
 
-  /**
-   * Input data for the user profile.
-   */
   @Input() userData = { username: '', password: '', email: '', birthday: '' };
 
   constructor(
@@ -30,20 +27,28 @@ export class UserProfileComponent implements OnInit {
     private router: Router,
   ) { }
 
-
   ngOnInit(): void {
     this.getUser();
   }
 
   /**
-   * Fetch the user's data and their favorite movies.
+   * Fetches user data and updates the component's user and userData properties
+   * This method is typically called during the initialization of the component
    */
   getUser(): void {
+    // Reset user object to ensure a clean state
     this.user = {};
+
+    // Fetch user data from the API
     this.fetchApiData.getOneUser().subscribe((response: any) => {
-      this.user = response;      
+      // Update the user property with the retrieved data
+      this.user = response;    
+      
+      // Update the userData property with relevant user details
       this.userData.username = this.user.Username;
       this.userData.email = this.user.Email;
+
+      // Format and set the birthday if available
       if (this.user.Birthday) {
         this.userData.birthday = formatDate(this.user.Birthday, 'yyyy-MM-dd', 'en-US', 'UTC+0');
       }
@@ -51,7 +56,8 @@ export class UserProfileComponent implements OnInit {
   }
   
   /**
-   * Edit the user's profile data.
+   * Edits the user's information based on the provided userData
+   * Sends an API request to update the user data and handles the response
    */
   editUser(): void {
     let payload = {
@@ -67,7 +73,7 @@ export class UserProfileComponent implements OnInit {
       this.snackBar.open('User has been updated', 'OK', {
         duration: 2000
       })
-      // window.location.reload();
+      window.location.reload();
     }, (result) => {
       this.snackBar.open(result, 'OK', {
         duration: 2000
@@ -76,16 +82,20 @@ export class UserProfileComponent implements OnInit {
   }
 
   /**
-   * Delete the user's account.
+   * Initiates the process of deleting the user's account.
+   * Displays a confirmation dialog, and if confirmed, sends an API request to delete the user.
+   * Clears local storage upon successful deletion and navigates to the welcome page.
    */
   deleteUser(): void {
+    // Display a confirmation dialog
     if (confirm('are you sure?')) {
-
+      // Send an API request to delete the user's account
       this.fetchApiData.deleteUser().subscribe((result) => {
         if (result === 'delete')
         localStorage.clear();
       });
 
+      // Navigate to the welcome page and show a success message
       this.router.navigate(['welcome']).then(() => {
         this.snackBar.open(
           'You have successfully deleted your account',
