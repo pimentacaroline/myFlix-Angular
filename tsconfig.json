@@ -22,10 +22,13 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "skipLibCheck": true
   },
   "typedocOptions": {
-    "entryPoints": ["src/main.ts"],
+    "entryPoints": [
+      "src"
+    ],
     "out": "docs"
   },
   "angularCompilerOptions": {
